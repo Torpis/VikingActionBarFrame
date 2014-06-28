@@ -27,7 +27,8 @@ function VikingActionBarFrame:new(o)
 end
 
 function VikingActionBarFrame:Init()
-  Apollo.RegisterAddon(self)
+  local tDependencies = { "VikingLibrary" }
+  Apollo.RegisterAddon(self, false, "", tDependencies)
 end
 
 function VikingActionBarFrame:OnLoad()
@@ -35,7 +36,6 @@ function VikingActionBarFrame:OnLoad()
   self.xmlDoc:RegisterCallback("OnDocumentReady", self)
 
   -- Load our sprites
-  Apollo.LoadSprites("VikingActionBarFrameSprites.xml")
 end
 
 function VikingActionBarFrame:OnDocumentReady()
@@ -317,7 +317,7 @@ function VikingActionBarFrame:RedrawBarVisibility()
 
   -- Why draw the mount button if we don't have a mount?
   local tMountList = AbilityBook.GetAbilitiesList(Spell.CodeEnumSpellTag.Mount) or {}
-  
+
   if next(tMountList) == nil then
     self.wndMountFlyout:Show(false)
     elseif next(self.wndMountFlyout:FindChild("MountPopoutList"):GetChildren()) ~= nil then
@@ -588,16 +588,15 @@ end
 function VikingActionBarFrame:OnVikingTooltipOn()
 
 	if VikingTooltipCursor == false then
-   VikingTooltipCursor = true
-   ChatSystemLib.PostOnChannel(2,"VikinghugUI_ActionBar: ToolTip will show at Cursor")
+    VikingTooltipCursor = true
+    ChatSystemLib.PostOnChannel(2,"VikinghugUI_ActionBar: ToolTip will show at Cursor")
  else
-   VikingTooltipCursor = false
-   ChatSystemLib.PostOnChannel(2,"VikinghugUI_ActionBar: ToolTip will not show at Cursor")
+    VikingTooltipCursor = false
+    ChatSystemLib.PostOnChannel(2,"VikinghugUI_ActionBar: ToolTip will not show at Cursor")
  end
- 
+
  Event_FireGenericEvent("Options_UpdateActionBarTooltipLocation")
- 
- 
+
 end
 
 function VikingActionBarFrame:OnUpdateActionBarTooltipLocation()
